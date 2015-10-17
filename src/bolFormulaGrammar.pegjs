@@ -22,10 +22,10 @@
   }
 }
 
-formula 'forumula' = junction / atom
+formula 'forumula' = junction / negation / atom
 
 junction 'junction'
-  = '(' _ first:formula rest:(_ ( '|' / '&') _ formula)* _ ')' {
+  = '(' _ first:formula rest:(_ ( '|' / '&' / '>' / '^' ) _ formula)* _ ')' {
     return combine(first, rest, {
       '&': function(left, right) {
         return {
@@ -41,7 +41,29 @@ junction 'junction'
           right: right,
         }
       },
+      '>': function(left, right) {
+        return {
+          junctor: "if-then",
+          left: left,
+          right: right,
+        }
+      },
+      '^': function(left, right) {
+        return {
+          junctor: "if-and-only-if",
+          left: left,
+          right: right,
+        }
+      },
     });
+  }
+
+negation 'negation'
+  = _ '~' _ form:formula _ {
+    return {
+      negation: "not",
+      content: form
+    }
   }
 
 atom 'atom'
