@@ -1,0 +1,57 @@
+{
+  "name": "bolformula",
+  "description": "bolformula",
+  "version": "0.0.0-semantically-released",
+  "engines": {
+    "node": ">=4.0.0",
+    "npm": ">=2.0.0"
+  },
+  "main": "dist/index.js",
+  "scripts": {
+    "prebuild": "rm -rf dist && mkdir dist",
+    "build": "babel src/index.js -o dist/index.js",
+    "postbuild": "cp src/bolFormulaGrammar.pegjs dist/bolFormulaGrammar.pegjs",
+    "commit": "git-cz",
+    "test": "istanbul cover -x *.test.js _mocha -- -R spec src/index.test.js --compilers js:babel/register",
+    "test:watch": "mocha src/index.test.js -w --compilers js:babel/register",
+    "check-coverage": "istanbul check-coverage --statements 100 --branches 100 --functions 100 --lines 100",
+    "report-coverage": "cat ./coverage/lcov.info | codecov",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/minicast/bolformula.git"
+  },
+  "keywords": [
+    "bolformula"
+  ],
+  "author": "minicast <minicast@gmx.com> (https://github.com/minicast)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/minicast/bolformula/issues"
+  },
+  "homepage": "https://github.com/minicast/bolformula#readme",
+  "dependencies": {
+    "lodash": "3.10.1",
+    "pegjs": "0.9.0"
+  },
+  "devDependencies": {
+    "babel": "5.8.23",
+    "chai": "3.3.0",
+    "codecov.io": "0.1.6",
+    "commitizen": "2.1.0",
+    "cz-conventional-changelog": "1.1.4",
+    "ghooks": "0.3.2",
+    "istanbul": "0.4.0",
+    "mocha": "2.3.3",
+    "semantic-release": "^4.3.5"
+  },
+  "czConfig": {
+    "path": "node_modules/cz-conventional-changelog"
+  },
+  "config": {
+    "ghooks": {
+      "pre-commit": "npm run test && npm run check-coverage"
+    }
+  }
+}
