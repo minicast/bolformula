@@ -1,5 +1,5 @@
-# qmlstructure
-qmlstructure
+# bolformula
+bolformula
 
 [![travis build](https://img.shields.io/travis/minicast/bolformula.svg?style=flat-square)](https://travis-ci.org/minicast/bolformula)
 [![codecov coverage]( 	https://img.shields.io/codecov/c/github/minicast/bolformula.svg?style=flat-square)](http://codecov.io/minicast/bolformula)
