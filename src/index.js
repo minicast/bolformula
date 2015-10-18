@@ -12,36 +12,40 @@ const bolFormulaGrammar = fs.readFileSync(
 );
 const bolFormulaParser = PEG.buildParser(bolFormulaGrammar);
 
-const nodeOfTerm = (term) => {
-  return {content: term, children: []};
-};
-
-const atomTerms = (formula) => {
-  if (!formula.relation) {
-    throw new Error("atomTerms called with bad imput");
-  }
-  let terms;
-  if (formula.arity === 0) {
-    terms = [];
-  }
-  if (formula.arity === 1) {
-    terms = [formula.term1];
-  }
-  if (formula.arity === 2) {
-    terms = [formula.term1, formula.term2];
-  }
-  return terms.map(nodeOfTerm);
-};
+// const nodeOfTerm = (term) => {
+//   return {content: term, children: []};
+// };
+//
+// const atomTerms = (formula) => {
+//   if (!formula.relation) {
+//     throw new Error("atomTerms called with bad imput");
+//   }
+//   let terms;
+//   if (formula.arity === 0) {
+//     terms = [];
+//   }
+//   if (formula.arity === 1) {
+//     terms = [formula.term1];
+//   }
+//   if (formula.arity === 2) {
+//     terms = [formula.term1, formula.term2];
+//   }
+//   return terms.map(nodeOfTerm);
+// };
 
 // formula2d3(
 //  ""
 // )
-const formula2d3 = (formulaParsed) => {
+function formula2d3 (formulaParsed) {
   // const formulaParsed = bolFormulaParser.parse(formulaString);
   let node = {};
+  if (!formulaParsed.relation && !formulaParsed.negation && !formulaParsed.junctor) {
+    throw new Error("formula2d3 called with bad imput");
+  }
   if (formulaParsed.relation) {
     node.content = formulaParsed.relation;
-    node.children = atomTerms(formulaParsed);
+    // node.children = atomTerms(formulaParsed);
+    node.children = []; // atomTerms(formulaParsed);
   }
   if (formulaParsed.negation) {
     node.content = formulaParsed.negation;
@@ -64,8 +68,7 @@ const formula2d3 = (formulaParsed) => {
   // }
   return node;
 
-  // };
-};
+}
 
 module.exports = {
   parser: bolFormulaParser,

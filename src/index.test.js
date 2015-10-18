@@ -6,7 +6,7 @@ import {expect} from 'chai';
 // import bolFormula from './index.js';
 const bolFormula = require('./index.js');
 
-describe("bolFormulaParser", function () {
+describe("bolFormula", function () {
   describe("parser", function () {
     it("should parse a boolean formula", function () {
       expect(bolFormula.parser.parse(
@@ -61,9 +61,10 @@ describe("bolFormulaParser", function () {
   });
   describe("getD3", function () {
     it("should return a D3 tree layout object", function () {
-      expect(bolFormula.getD3(bolFormula.parser.parse(
+      const parsedFormula = bolFormula.parser.parse(
         `(~((p & q & s) | ~(q>r) ) ^ ~~s)`
-      ))).to.deep.equal(
+      );
+      expect(bolFormula.getD3(parsedFormula)).to.deep.equal(
         JSON.parse(
           `{
             "content":"if-and-only-if",
@@ -114,13 +115,21 @@ describe("bolFormulaParser", function () {
         )
       );
     });
-    const fn = function() {
+
+    const badParserInput = function() {
       bolFormula.getD3(bolFormula.parser.parse(
         `badInput`
       ));
     };
-    it("should throw on badly formed input", function () {
-      expect(fn).to.throw();
+    it("should throw on badly formed parser input", function () {
+      expect(badParserInput).to.throw();
+    });
+
+    const unParsedFormulaInput = function() {
+      bolFormula.getD3(`badInput`);
+    };
+    it("should throw with an unparsed formula input", function () {
+      expect(unParsedFormulaInput).to.throw();
     });
   });
 });
