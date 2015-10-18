@@ -2,12 +2,15 @@
 "use strict";
 
 const fs = require("fs");
+const path = require("path");
 // import fs from "fs";
 // import _ from "lodash";
 const PEG = require("pegjs");
+// .json files can be required directly
+// const bolFormulaGrammar = require("./bolFormulaGrammar.json");
 
 const bolFormulaGrammar = fs.readFileSync(
-  "./src/bolFormulaGrammar.pegjs",
+  path.join(__dirname, "/bolFormulaGrammar.pegjs"),
   "utf8"
 );
 const bolFormulaParser = PEG.buildParser(bolFormulaGrammar);
