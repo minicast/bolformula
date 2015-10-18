@@ -9,11 +9,18 @@ const PEG = require("pegjs");
 // .json files can be required directly
 // const bolFormulaGrammar = require("./bolFormulaGrammar.json");
 
-const bolFormulaGrammar = fs.readFileSync(
+let bolFormulaParser;
+
+// const bolFormulaGrammar = fs.readFileSync(
+const bolFormulaGrammar = fs.readFile(
   path.join(__dirname, "/bolFormulaGrammar.pegjs"),
-  "utf8"
+  "utf8",
+  function (err, data) {
+    if (err) { throw err; }
+    // console.log(data);
+    bolFormulaParser = PEG.buildParser(data);
+  }
 );
-const bolFormulaParser = PEG.buildParser(bolFormulaGrammar);
 
 // const nodeOfTerm = (term) => {
 //   return {content: term, children: []};
