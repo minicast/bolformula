@@ -67,13 +67,54 @@ function formula2d3 (formulaParsed) {
   //   ];
   // }
   return node;
+}
 
+function string2latex(string) {
+  return string
+    .replace(/\{/g, "\\{ ") // this needs to be first, before any other {}inro rule
+    .replace(/~/g, "\\lnot{}")
+    .replace(/&/g, "\\land{}")
+    .replace(/\|/g, "\\lor{}")
+    .replace(/\>/g, "\\rightarrow{}")
+    .replace(/\^/g, "\\leftrightarrow{}")
+    .replace(/#/g, "\\Box{}")
+    .replace(/\*/g, "\\Diamond{}")
+    .replace(/\$/g, "\\forall{}")
+    .replace(/!/g, "\\exists{}")
+    .replace(/@/g, "@{}")
+    .replace(/</g, "<{}");
+}
+
+function parsed2string(parsedFormula) {
+  let string = "";
+  if (parsedFormula.relation) {
+    string = parsedFormula.relation;
+  } else
+  if (parsedFormula.negation) {
+    string = `~${parsed2string(parsedFormula.content)}`;
+  } else
+  if (parsedFormula.junctor) {
+    let jc = "";
+    if (parsedFormula.junctor === "and") { jc = "&"; } else
+    if (parsedFormula.junctor === "or") { jc = "|"; } else
+    if (parsedFormula.junctor === "if-then") { jc = ">"; } else
+    if (parsedFormula.junctor === "if-and-only-if") { jc = "^"; } else
+    {
+      throw new Error("parsed2string called with unknown junctor");
+    }
+    string = `(${parsed2string(parsedFormula.left)}${jc}${parsed2string(parsedFormula.right)})`;
+  }
+  else {
+    throw new Error("parsed2string called with bad imput");
+  }
+  return string;
 }
 
 module.exports = {
   parser: bolFormulaParser,
   getD3: formula2d3,
-  getLatex: "getLatex"
+  getLatex: string2latex,
+  getString: parsed2string
 };
 
 // JSON.stringify(formula2d3(FormulaPEG.parse("(R(a,b)&~R(a,b))")))

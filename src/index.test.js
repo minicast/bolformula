@@ -7,6 +7,10 @@ import {expect} from 'chai';
 const bolFormula = require('./index.js');
 
 describe("bolFormula", function () {
+  const parsedFormula = bolFormula.parser.parse(
+    `(~((p & q & s) | ~(q>r) ) ^ ~~s)`
+  );
+
   describe("parser", function () {
     it("should parse a boolean formula", function () {
       expect(bolFormula.parser.parse(
@@ -50,20 +54,16 @@ describe("bolFormula", function () {
       );
     });
 
-    const fn = function() {
-      bolFormula.parser.parse(
-        `badInput`
-      );
-    };
     it("should throw on badly formed input", function () {
-      expect(fn).to.throw();
+      const illFormedInput = function() {
+        bolFormula.parser.parse(`badInput`);
+      };
+      expect(illFormedInput).to.throw();
     });
   });
+
   describe("getD3", function () {
     it("should return a D3 tree layout object", function () {
-      const parsedFormula = bolFormula.parser.parse(
-        `(~((p & q & s) | ~(q>r) ) ^ ~~s)`
-      );
       expect(bolFormula.getD3(parsedFormula)).to.deep.equal(
         JSON.parse(
           `{
@@ -116,20 +116,57 @@ describe("bolFormula", function () {
       );
     });
 
-    const badParserInput = function() {
-      bolFormula.getD3(bolFormula.parser.parse(
-        `badInput`
-      ));
-    };
     it("should throw on badly formed parser input", function () {
+      const badParserInput = function() {
+        bolFormula.getD3(bolFormula.parser.parse(
+          `badInput`
+        ));
+      };
       expect(badParserInput).to.throw();
     });
 
-    const unParsedFormulaInput = function() {
-      bolFormula.getD3(`badInput`);
-    };
     it("should throw with an unparsed formula input", function () {
+      const unParsedFormulaInput = function() {
+        bolFormula.getD3(`badInput`);
+      };
       expect(unParsedFormulaInput).to.throw();
+    });
+  });
+
+  describe("getLatex", function () {
+    it("should convert a string to latex", function () {
+      expect(bolFormula.getLatex("(~((p&q&s)|~(q>r))^~~s)"))
+      .to.equal(
+        "(\\lnot{}((p\\land{}q\\land{}s)\\lor{}\\lnot{}(q\\rightarrow{}r))\\leftrightarrow{}\\lnot{}\\lnot{}s)"
+      );
+    });
+  });
+
+  describe("getString", function () {
+    it("should convert a parsed formula to a string", function () {
+      expect(bolFormula.getString(parsedFormula))
+      .to.equal(
+        "(~(((p&q)&s)|~(q>r))^~~s)"
+      );
+    });
+
+    it("should throw on badly formed input", function () {
+      const notParsedInput = function() {
+        bolFormula.getString(`badInput`);
+      };
+      expect(notParsedInput).to.throw();
+    });
+
+    it("should throw on unknown junctor input", function () {
+      const unknownJunctor = function() {
+        bolFormula.getString({
+          junctor: 'nand',
+            left: { relation: 'p', arity: 0 },
+            right: { relation: 'q', arity: 0 }
+          }
+        );
+      };
+      expect(unknownJunctor).to.throw();
     });
   });
 });
