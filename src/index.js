@@ -110,11 +110,28 @@ function parsed2string(parsedFormula) {
   return string;
 }
 
+function string2unicode(string) {
+  return string
+    .replace(/~/g, "\u00ac")
+    .replace(/&/g, "\u2227")
+    .replace(/\|/g, "\u2228")
+    .replace(/\>/g, "\u2192") // "\uE2A1") \uE124 &#8594;
+    .replace(/\^/g, "\u2194") // "\uE2A5") \uE121
+    .replace(/#/g, "\u25FD") // 25A1 2610 "\u25a1") E285  9744 20DE
+    .replace(/\*/g, "\u25c7") // "\u25ca") E281 9826
+    .replace(/\$/g, "\u2200")
+    .replace(/!/g, "\u2203")
+    .replace(/@/g, "\u0040")
+    .replace(/\{/g, "\u007B")
+    .replace(/</g, "\u003C");
+}
+
 module.exports = {
   parser: bolFormulaParser,
   getD3: formula2d3,
   getLatex: string2latex,
-  getString: parsed2string
+  getString: parsed2string,
+  getUnicode: string2unicode
 };
 
 // JSON.stringify(formula2d3(FormulaPEG.parse("(R(a,b)&~R(a,b))")))

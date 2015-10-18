@@ -142,6 +142,16 @@ describe("bolFormula", function () {
     });
   });
 
+  describe("getUnicode", function () {
+    it("should convert a string to unicode", function () {
+      expect(bolFormula.getUnicode("(~((p&q&s)|~(q>r))^~~s)"))
+      .to.equal(
+        "(¬((p∧q∧s)∨¬(q→r))↔¬¬s)"
+      );
+    });
+  });
+
+
   describe("getString", function () {
     it("should convert a parsed formula to a string", function () {
       expect(bolFormula.getString(parsedFormula))
