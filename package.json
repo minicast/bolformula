@@ -7,15 +7,16 @@
   },
   "main": "dist/index.js",
   "scripts": {
-    "prebuild": "rm -rf dist && mkdir dist",
-    "build": "babel src/index.js -o dist/index.js",
-    "postbuild": "cp src/bolFormulaGrammar.pegjs dist/bolFormulaGrammar.pegjs",
+    "prebuild": "rm -rf dist && mkdir dist && rm src/bolFormulaParser.js",
+    "build": "babel src/index.js -o dist/index.js && pegjs src/bolFormulaGrammar.pegjs src/bolFormulaParser.js",
+    "postbuild": "cp src/bolFormulaGrammar.pegjs dist/bolFormulaGrammar.pegjs && cp src/bolFormulaParser.js dist/bolFormulaParser.js",
     "commit": "git-cz",
     "test": "istanbul cover -x *.test.js _mocha -- -R spec src/index.test.js --compilers js:babel/register",
     "test:watch": "mocha src/index.test.js -w --compilers js:babel/register",
-    "check-coverage": "istanbul check-coverage --statements 3 --branches 3 --functions 3 --lines 3",
+    "check-coverage": "istanbul check-coverage --statements 55 --branches 55 --functions 55 --lines 55",
     "report-coverage": "cat ./coverage/lcov.info | codecov",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post",
+    "pegjs": "rm src/bolFormulaParser.js && pegjs src/bolFormulaGrammar.pegjs src/bolFormulaParser.js"
   },
   "repository": {
     "type": "git",

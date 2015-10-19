@@ -5,22 +5,23 @@ const fs = require("fs");
 const path = require("path");
 // import fs from "fs";
 // import _ from "lodash";
-const PEG = require("pegjs");
+const bolFormulaParser = require("./bolFormulaParser.js");
+// const PEG = require("pegjs");
 // .json files can be required directly
 // const bolFormulaGrammar = require("./bolFormulaGrammar.json");
 
-let bolFormulaParser;
+// let bolFormulaParser;
 
-// const bolFormulaGrammar = fs.readFileSync(
-const bolFormulaGrammar = fs.readFile(
-  path.join(__dirname, "/bolFormulaGrammar.pegjs"),
-  "utf8",
-  function (err, data) {
-    if (err) { throw err; }
-    // console.log(data);
-    bolFormulaParser = PEG.buildParser(data);
-  }
-);
+// // const bolFormulaGrammar = fs.readFileSync(
+// const bolFormulaGrammar = fs.readFile(
+//   path.join(__dirname, "/bolFormulaGrammar.pegjs"),
+//   "utf8",
+//   function (err, data) {
+//     if (err) { throw err; }
+//     // console.log(data);
+//     bolFormulaParser = PEG.buildParser(data);
+//   }
+// );
 
 // const nodeOfTerm = (term) => {
 //   return {content: term, children: []};
