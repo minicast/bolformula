@@ -72,7 +72,7 @@ describe("bolFormula", function () {
     it("should return a D3 tree layout object", function () {
       expect(bolFormula.getD3(parsedFormula)).to.deep.equal(
         JSON.parse(
-          `{
+          `[{
             "content":"if-and-only-if",
             "children":[{
               "content":"not",
@@ -117,7 +117,7 @@ describe("bolFormula", function () {
                 }]
               }]
             }]
-          }`
+          }]`
         )
       );
     });

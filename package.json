@@ -9,7 +9,7 @@
   "scripts": {
     "prebuild": "rm -rf dist && mkdir dist && rm src/bolFormulaParser.js",
     "build": "babel src/index.js -o dist/index.js && pegjs src/bolFormulaGrammar.pegjs src/bolFormulaParser.js",
-    "postbuild": "cp src/bolFormulaGrammar.pegjs dist/bolFormulaGrammar.pegjs && cp src/bolFormulaParser.js dist/bolFormulaParser.js",
+    "postbuild": "cp src/bolFormulaParser.js dist/bolFormulaParser.js",
     "commit": "git-cz",
     "test": "istanbul cover -x *.test.js _mocha -- -R spec src/index.test.js --compilers js:babel/register",
     "test:watch": "mocha src/index.test.js -w --compilers js:babel/register",

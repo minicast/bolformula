@@ -2,7 +2,7 @@
 "use strict";
 
 const fs = require("fs");
-const path = require("path");
+// const path = require("path");
 // import fs from "fs";
 // import _ from "lodash";
 const bolFormulaParser = require("./bolFormulaParser.js");
@@ -137,9 +137,13 @@ function string2unicode(string) {
     .replace(/</g, "\u003C");
 }
 
+function listForm2d3(formula) {
+  return [ formula2d3(formula) ];
+}
+
 module.exports = {
   parser: bolFormulaParser,
-  getD3: formula2d3,
+  getD3: listForm2d3,
   getLatex: string2latex,
   getString: parsed2string,
   getUnicode: string2unicode
