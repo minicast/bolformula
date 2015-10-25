@@ -44,9 +44,7 @@ const bolFormulaParser = require("./bolFormulaParser.js");
 //   return terms.map(nodeOfTerm);
 // };
 
-// formula2d3(
-//  ""
-// )
+// formula2d3()
 function formula2d3 (formulaParsed) {
   // const formulaParsed = bolFormulaParser.parse(formulaString);
   let node = {};
