@@ -111,7 +111,7 @@ function parsed2string(parsedFormula) {
     if (parsedFormula.junctor === "and") { jc = "&"; } else
     if (parsedFormula.junctor === "or") { jc = "|"; } else
     if (parsedFormula.junctor === "if-then") { jc = ">"; } else
-    if (parsedFormula.junctor === "if-and-only-if") { jc = "^"; } else
+    if (parsedFormula.junctor === "equiv") { jc = "^"; } else
     {
       throw new Error("parsed2string called with unknown junctor");
     }

@@ -24,7 +24,7 @@ describe("bolFormula", function () {
       )).to.deep.equal(
         JSON.parse(
           `{
-            "junctor":"if-and-only-if",
+            "junctor":"equiv",
             "left":{
               "negation":"not",
               "content":{
@@ -73,7 +73,7 @@ describe("bolFormula", function () {
       expect(bolFormula.getD3(parsedFormula)).to.deep.equal(
         JSON.parse(
           `[{
-            "content":"if-and-only-if",
+            "content":"equiv",
             "children":[{
               "content":"not",
               "children":[{

@@ -75,7 +75,7 @@ module.exports = (function() {
               },
               '^': function(left, right) {
                 return {
-                  junctor: "if-and-only-if",
+                  junctor: "equiv",
                   left: left,
                   right: right,
                 }
