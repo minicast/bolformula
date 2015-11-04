@@ -4,7 +4,7 @@
 const fs = require("fs");
 // const path = require("path");
 // import fs from "fs";
-// import _ from "lodash";
+import _ from "lodash";
 const bolFormulaParser = require("./bolFormulaParser.js");
 // const PEG = require("pegjs");
 // .json files can be required directly
@@ -78,6 +78,10 @@ function formula2d3 (formulaParsed) {
   return node;
 }
 
+function listForm2d3(formula) {
+  return [ formula2d3(formula) ];
+}
+
 function string2latex(string) {
   return string
     .replace(/\{/g, "\\{ ") // this needs to be first, before any other {}inro rule
@@ -135,13 +139,38 @@ function string2unicode(string) {
     .replace(/</g, "\u003C");
 }
 
-function listForm2d3(formula) {
-  return [ formula2d3(formula) ];
+function leafsInFormulaTree(formulaTree) {
+  if (formulaTree.children.length === 0) {
+    return 1;
+  } else {
+    return _(_(formulaTree.children).map((x) => {
+      return leafsInFormulaTree(x);
+    })).reduce(function(x,y){return x + y;}, 0);
+  }
+}
+
+function depthOfFormulaTree(formulaTree) {
+  if (formulaTree.children.length === 0)
+    return 1;
+  else
+    return _(_(formulaTree.children).map((x) => {
+      return depthOfFormulaTree(x);
+    })).max() + 1;
+}
+
+function getD3leafs(parsedFormula) {
+  return leafsInFormulaTree(formula2d3(parsedFormula));
+}
+
+function getD3depth(parsedFormula) {
+  return depthOfFormulaTree(formula2d3(parsedFormula));
 }
 
 module.exports = {
   parser: bolFormulaParser,
   getD3: listForm2d3,
+  getD3leafs: getD3leafs,
+  getD3depth: getD3depth,
   getLatex: string2latex,
   getString: parsed2string,
   getUnicode: string2unicode

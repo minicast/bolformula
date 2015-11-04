@@ -139,6 +139,18 @@ describe("bolFormula", function () {
     });
   });
 
+  describe("getD3depth", function () {
+    it("should return the depth of the formula's D3 tree", function () {
+      expect(bolFormula.getD3depth(parsedFormula)).to.equal(6);
+    });
+  });
+
+  describe("getD3leafs", function () {
+    it("should return the number of leafs (breadth) of the D3 tree", function () {
+      expect(bolFormula.getD3leafs(parsedFormula)).to.equal(6);
+    });
+  });
+
   describe("getLatex", function () {
     it("should convert a string to latex", function () {
       expect(bolFormula.getLatex("(~((p&q&s)|~(q>r))^~~s)"))
